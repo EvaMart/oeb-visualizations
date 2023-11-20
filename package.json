@@ -34,6 +34,7 @@
         "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/oeb-visualizations.min.js"
     },
     "dependencies": {
+        "moment": "^2.29.4",
         "plotly.js-dist": "^2.27.1",
         "vue": "^2.6.10"
     },
