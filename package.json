@@ -1,0 +1,50 @@
+{
+    "name": "oeb_visualizations",
+    "version": "0.0.1",
+    "description": "",
+    "author": "evamart",
+    "license": "MIT",
+    "keywords": [
+        "vue",
+        "nuxt",
+        "plotly"
+    ],
+    "homepage": "",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "main": "dist/oeb-visualizations.umd.js",
+    "module": "dist/oeb-visualizations.esm.js",
+    "unpkg": "dist/oeb-visualizations.min.js",
+    "browser": {
+        "./sfc": "src/oeb-visualizations.vue"
+    },
+    "files": [
+        "dist/*"
+    ],
+    "vetur": {
+        "tags": "tags.json",
+        "attributes": "attributes.json"
+    },
+    "scripts": {
+        "build": "npm run build:unpkg & npm run build:es & npm run build:umd",
+        "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/oeb-visualizations.umd.js",
+        "build:es": "rollup --config build/rollup.config.js --format es --file dist/oeb-visualizations.esm.js",
+        "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/oeb-visualizations.min.js"
+    },
+    "dependencies": {
+        "plotly.js-dist": "^2.27.1",
+        "vue": "^2.6.10"
+    },
+    "devDependencies": {
+        "minimist": "^1.2.0",
+        "rollup": "^1.14.4",
+        "rollup-plugin-buble": "^0.19.6",
+        "rollup-plugin-commonjs": "^9.3.4",
+        "rollup-plugin-replace": "^2.2.0",
+        "rollup-plugin-uglify-es": "0.0.1",
+        "rollup-plugin-vue": "^4.7.2",
+        "vue-template-compiler": "^2.6.10"
+    }
+}
