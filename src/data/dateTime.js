@@ -13,7 +13,7 @@ const numbers = [];
 const status = [];
 for (let i = 0; i < 30; i++) {
     var number = Math.floor(Math.random() * 81) + 20;
-    if(number>40 && number<90){
+    if(number>30 && number<90){
         status.push('up')
     }else if(number>=90){
         status.push('NA')
