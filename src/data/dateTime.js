@@ -1,4 +1,4 @@
-// Generates mock data to test the components.
+// Generates mock data to test the component "accessibilityPlot".
 
 const moment = require('moment');
 
@@ -8,19 +8,21 @@ for (let i = 0; i < 30; i++) {
     dates.push(date);
     }
 dates.sort((a, b) => a.localeCompare(b));
-
+console.log(dates)
 const numbers = [];
 const status = [];
 for (let i = 0; i < 30; i++) {
-    const number = Math.floor(Math.random() * 81) + 20;
-    numbers.push(number);
-    if(number>40){
+    var number = Math.floor(Math.random() * 81) + 20;
+    if(number>40 && number<90){
         status.push('up')
-    }else if(number>100){
+    }else if(number>=90){
         status.push('NA')
+        number = null
     }else{
         status.push('down')
+        number = null
     }
+    numbers.push(number);
 }
 
 const data = {
