@@ -414,7 +414,7 @@ export default {
                 },
                 name: name,
                 type:"bar",
-                legendgroup:'down',
+                legendgroup: name,
                 showlegend: showlegend,
                 hoverinfo: hoverinfo,
                 hovertemplate: hovertemplate,
