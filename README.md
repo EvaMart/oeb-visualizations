@@ -62,7 +62,7 @@ Example:
 
 #### Usage 
 
-Import the component in your Vue component and add it to the `components` section. Then use the component in the template.
+Import the `accessibilityPlot` in your Vue component and add it to the `components` section. Then use the component in the template.
 
 ```html
 <template>
