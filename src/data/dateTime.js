@@ -1,4 +1,6 @@
 // Generates mock data to test the component "accessibilityPlot".
+// 30 days of data are generated, with a random number of uptime between 20 and 100.
+// The status is set to "up" if the uptime is between 30 and 90, "down" if it is below 30, and "NA" if it is above 90.
 
 const moment = require('moment');
 
