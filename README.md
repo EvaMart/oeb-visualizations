@@ -53,11 +53,11 @@ Example:
 | --- | --- | --- | --- | --- |
 |dataItems | Array | Array of objects  with keys `access_time`, `date` and `code`. <br> More details in "Data" section | | true |
 | height | Number | Height of the plot in pixels. | 400 | false |
-| colorNA | String | Color of bars for which there is no monitoring information (`code`=`null`). RGB format: "<R>, <G>, <B>" | 204, 204, 204 | false |
-| colorOffline | String | Color of bars for which the server was offline (`code` is an error code). RGB format: "<R>, <G>, <B>" | 255, 153, 145 | false |
-| colorOnline | String | Color of bars for which the server was online (`code` is 200). RGB format: "<R>, <G>, <B>" | 111, 176, 129 | false |
-| yaxisTitle | String | Title of the y axis. | "Access time (ms)" | false |
-| xaxisTitle | String | Title of the x axis. | "Date" | false |
+| colorNA | String | Color of bars for which there is no monitoring information (`code`=`null`). RGB format: `"<R>, <G>, <B>"` | 204, 204, 204 | false |
+| colorOffline | String | Color of bars for which the server was offline (`code` is an error code). RGB format: `"<R>, <G>, <B>"` | 255, 153, 145 | false |
+| colorOnline | String | Color of bars for which the server was online (`code` is 200). RGB format: `"<R>, <G>, <B>"` | 111, 176, 129 | false |
+| yaxisTitle | String | Title of the y axis. | Access time (ms) | false |
+| xaxisTitle | String | Title of the x axis. | Date | false |
 | dtick | String | Tick interval for the x axis in unix epoch. | 86400000 | false |   
 
 #### Usage 
