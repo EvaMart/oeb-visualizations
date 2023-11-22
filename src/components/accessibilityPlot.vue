@@ -59,7 +59,7 @@ export default {
             */
             type: String,
             required: false,
-            default: 'rgba(204,204,204,.8)'
+            default: '204,204,204'
         },
         height: {
             /*
@@ -168,6 +168,9 @@ export default {
                     size: 8
                 }
             },
+            hoverlabel: { bgcolor: "#FFF" },
+            hovermode: 'closest',
+            hoverdistance: 70
         }
 
         Plotly.newPlot('plotAccessibility', traces, layout);
@@ -292,6 +295,8 @@ export default {
                     marker: {
                         size: 5
                     },
+                    hovertemplate: '<b>Online</b><br>%{x|%d %b %Y}<br>%{y} ms <extra></extra>',
+                    hoveron: 'points+fills'
                 };
                 traces.push(trace);
             }
@@ -391,36 +396,7 @@ export default {
             };
         },
 
-        prepareBarSeries(dates, color){
-            /*
-            This function builds the series used to display the offline/NA bars.
-            For each date, two columns are created: one very short and one tall. 
-            These columns cover the whole plot height. 
-            The tall column is colored with colorStrong and the short one with colorLight.
-
-            Arguments:
-                - dates: array of dates
-                - color: color of the bars
-
-            Returns an object with keys "dates", "access_times" and "colors"
-
-            */
-            const colorStrong = `rgba(${color},.8)`
-            const colorLight = `rgba(${color},.2)`
-
-            const access_times = Array(dates.length).fill(2).concat(Array(dates.length).fill(120))
-            const colors = Array(dates.length).fill(colorStrong).concat(Array(dates.length).fill(colorLight))
-            dates = dates.concat(dates)
-
-            return {
-                dates: dates,
-                access_times: access_times,
-                colors: colors
-            }
-
-        },
-
-        buildBarTrace(data, name){
+        barTrace(data, name, showlegend, hoverinfo, hovertemplate){
             /*
             This function builds a bar trace.
             Arguments:
@@ -438,32 +414,70 @@ export default {
                 },
                 name: name,
                 type:"bar",
+                legendgroup:'down',
+                showlegend: showlegend,
+                hoverinfo: hoverinfo,
+                hovertemplate: hovertemplate,
             };
 
             return trace;
         },
 
+        buildBarTraces(dates, color, label){
+            /*
+            This function builds the series used to display the offline/NA bars.
+            For each date, two columns are created: one very short and one tall. 
+            These columns cover the whole plot height. 
+            The tall column is colored with colorStrong and the short one with colorLight.
+
+            Arguments:
+                - dates: array of dates
+                - color: color of the bars
+
+            Returns array with offline and NA traces
+
+            */
+
+            const colorStrong = `rgba(${color},.8)`
+            const colorLight = `rgba(${color},.2)`
+
+            const dataShort = {
+                dates: dates,
+                access_times: Array(dates.length).fill(2),
+                colors: Array(dates.length).fill(colorStrong)
+            }
+            const dataTall = {
+                dates: dates,
+                access_times: Array(dates.length).fill(120),
+                colors: Array(dates.length).fill(colorLight)
+            }
+            const hovertemplate = `<b>${label}</b><br>%{x|%d %b %Y}<br>%{y} ms <extra></extra>`
+
+            const traceShort = this.barTrace(dataShort, label, false, 'skip', '')
+            const traceTall = this.barTrace(dataTall, label, true, 'all', hovertemplate)
+
+            return [traceShort, traceTall]
+            
+        },
+
         buildOfflineNATraces(data){
             /*
             This function builds the bar traces of offline and NA values.
+
             Arguments:
             - data: array of objects with keys "access_time", "date" and "code". access_time and code can be null
             
             Returns an array of bar traces
             */
 
-            const traces = [];
+            var traces = [];
             const arrays = this.extractOfflineNADates(data);
 
             // Down arrays
-            const dataDown = this.prepareBarSeries(arrays.down, this.colorOffline)
-            const traceDown = this.buildBarTrace(dataDown, 'Offline')
-            traces.push(traceDown);
-
+            traces = traces.concat(this.buildBarTraces(arrays.down, this.colorOffline, 'Offline'))
+                        
             // NA arrays
-            const dataNA = this.prepareBarSeries(arrays.NA, this.colorNA)
-            const traceNA = this.buildBarTrace(dataNA, 'No information captured')
-            traces.push(traceNA);
+            traces = traces.concat(this.buildBarTraces(arrays.NA, this.colorNA, 'No information available'))
 
             return traces;
         }
