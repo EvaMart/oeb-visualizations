@@ -3,6 +3,19 @@ repo_name: inab/oeb-visualizations
 repo_url: https://github.com/inab/oeb-visualizations
 theme: 
   name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 # Extensions
 markdown_extensions:
   - abbr
