@@ -17,5 +17,4 @@ npm install @inb/oeb-visualizations
 
 ## Development 
 
-*TODO*
-
+🚧 Work in progress 🚧
