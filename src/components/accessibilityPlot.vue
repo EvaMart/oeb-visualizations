@@ -67,7 +67,7 @@ export default {
             */
             type: Number,
             required: false,
-            default: 400
+            default: 350
         },
         dataItems: {
             /*
@@ -82,6 +82,8 @@ export default {
             validator: function (value) {
                 /*
                 This function validates the dataItems prop. It throws a console error if the prop is not valid.
+                TODO: apply vue-types to define the prop. 
+                https://github.com/dwightjack/vue-types
                 */
                 for(let i=0; i<value.length; i++){
                     // The value must be an array of objects with keys "access_time", "date" and "code"
@@ -137,10 +139,10 @@ export default {
                 type: 'date',
                 title: this.xaxisTitle,
                 font: {
-                    size: 8
+                    size: 10
                 },
                 tickfont: {
-                        size: 8
+                        size: 10
                     },
                 tickmode: 'linear',
                 tick0: this.dataItems[0].date,
@@ -154,7 +156,7 @@ export default {
                     size: 10
                 },
                 tickfont: {
-                    size: 8
+                    size: 10
                 }
             },
             template: 'plotly_white',
