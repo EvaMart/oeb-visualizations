@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Including one Vue.js component in an existing HTML page</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@inb/oeb_visualizations/dist/oeb-visualizations.min.js"></script>
+
+    <link href="./index.css" rel="stylesheet"> 
+    <script type="text/javascript" src="./data.js"></script>
+
+</head>
+<body>
+  <div id="app">
+  <h1>Example of oeb_visualization in HTML</h1>
+  <div>
+    <h3>Here is a citations plot generated with Vue</h3>
+    <div class="container">
+      <!-- We add the Vue component -->
+      <citations-plot :data-traces="dataToPlot" ></citations-plot>
+    </div>
+  </div>
+  <p>This paragraph is normal HTML content. Not interactive, server-side generated.</p>
+  </div>
+</body>
+<script>
+  
+  // the data to plot is in data.js
+  const dataImported = [ traceData1, traceData2, traceData3 ]
+
+  // register the component
+  Vue.component('citations-plot', 'oeb_visualizations'.citationsPlot)
+
+  // create a new Vue instance
+  // the data passed through the data attribute is available in the component
+  let app = new Vue({ el: '#app', data: { dataToPlot: dataImported }  })
+
+</script>
+</html>
+
+

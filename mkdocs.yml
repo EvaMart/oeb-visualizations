@@ -3,6 +3,8 @@ repo_name: inab/oeb-visualizations
 repo_url: https://github.com/inab/oeb-visualizations
 theme: 
   name: material
+  features:
+    - toc.integrate
   palette:
     - scheme: default
       primary: indigo
