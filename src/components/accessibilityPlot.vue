@@ -1,14 +1,18 @@
 <template>
-    <div id="plotAccessibility">
+    <div  :id="divId">
     </div>
 </template>
 <script>
 
 import Plotly from 'plotly.js-dist'
+import { randstr } from '../utils';
 
 
 export default {
     name: 'accessibilityPlot',
+    data: () => ({
+        divId: randstr('acc_plot')
+    }),
     props: {
         dtick: {
             /*
@@ -172,10 +176,9 @@ export default {
             },
             hoverlabel: { bgcolor: "#FFF" },
             hovermode: 'closest',
-            hoverdistance: 70
         }
 
-        Plotly.newPlot('plotAccessibility', traces, layout);
+        Plotly.newPlot(this.divId, traces, layout);
         
     },
     methods: {
@@ -340,6 +343,8 @@ export default {
                 marker: {
                     size: 5
                 },
+                // avg access time with 2 decimals
+                hovertemplate: '<b>Average access time</b><br>%{y:.2f} ms <extra></extra>', 
             };
 
             return trace

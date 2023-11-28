@@ -4,7 +4,6 @@
 <script>
 
 import Plotly from 'plotly.js-dist';
-
 import { randstr } from '../utils';
 
 export default {
