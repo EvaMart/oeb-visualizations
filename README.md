@@ -12,7 +12,7 @@ Collection of Vue components for data visualization in [OpenEBench](https://open
 To install the package run: 
 
 ```bash
-npm install @inb/oeb-visualizations
+npm install @inb/oeb_visualizations
 ``` 
 
 ## Development 

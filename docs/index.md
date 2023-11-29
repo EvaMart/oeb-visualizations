@@ -7,7 +7,7 @@ OEB Visualizations is a collection of Vue components for data visualization in O
 To install the package run: 
 
 ```sh
-npm install @inb/oeb-visualizations
+npm install @inb/oeb_visualizations
 ``` 
 
 
