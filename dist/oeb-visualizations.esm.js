@@ -8,7 +8,8 @@ function randstr(prefix) {
 var script$1 = {
   name: 'accessibilityPlot',
   data: () => ({
-    divId: randstr('acc_plot')
+    divId: randstr('acc_plot'),
+    max_access_time: 0
   }),
   props: {
     dtick: {
@@ -70,6 +71,15 @@ var script$1 = {
       required: false,
       default: 350
     },
+    week: {
+      /*
+      whether the plot is used to show data of one week
+      If true, days of the week are shown on the x axis
+      */
+      type: Boolean,
+      required: false,
+      default: false
+    },
     dataItems: {
       /*
       dataItems is an array of objects with keys "access_time", "date" and "code".
@@ -118,6 +128,7 @@ var script$1 = {
     }
   },
   mounted() {
+    this.max_access_time = Math.max(...this.dataItems.map(item => item.access_time));
     var traces = this.buildOnlineTraces(this.dataItems); // generate line traces
 
     traces = traces.concat(this.buildOfflineNATraces(this.dataItems)); //  generate bar traces
@@ -144,11 +155,16 @@ var script$1 = {
         tickfont: {
           size: 10
         },
-        tickmode: 'linear',
+        showgrid: this.week ? true : false,
+        griddash: "dot",
+        gridwidth: 1,
+        showspikes: true,
+        spikedash: "4px",
+        spikethickness: 1,
         tick0: this.dataItems[0].date,
         dtick: this.dtick,
-        tickangle: 45,
-        tickformat: "%d %b"
+        tickangle: this.xaxesTickAngle(),
+        tickformat: this.xaxesTickFormat()
       },
       yaxis: {
         title: this.yaxisTitle,
@@ -302,10 +318,18 @@ var script$1 = {
 
       // set start and end dates so that the line spands the whole plot
       const firstDate = new Date(this.dataItems[0].date);
-      firstDate.setDate(firstDate.getDate() - 1); // one day before the first date in data
+      if (this.week) {
+        firstDate.setDate(firstDate.getDate() - 0.1); // one day before the first date in data
+      } else {
+        firstDate.setDate(firstDate.getDate() - 1); // one month before the first date in data
+      }
 
       const lastDate = new Date(this.dataItems[this.dataItems.length - 1].date);
-      lastDate.setDate(lastDate.getDate() + 1); // one day after the last date in data
+      if (this.week) {
+        lastDate.setDate(lastDate.getDate() + 0.3);
+      } else {
+        lastDate.setDate(lastDate.getDate() + 1); // one month after the last date in data
+      }
 
       const trace = {
         x: [firstDate, lastDate],
@@ -344,17 +368,6 @@ var script$1 = {
       return traces;
     },
     extractOfflineNADates(data) {
-      /*
-      This function extracts dates with access_time null. 
-      Depending on the code, the server is offline or NA on those dates.
-       Arguments:
-          - data: array of objects with keys "access_time", "date" and "code". access_time and code can be null
-      
-      Returns an object with keys:
-          - NA: array of dates with access_time null and code null
-          - down: array of dates with access_time null and code in errorCodes
-      */
-      const errorCodes = [404, 500, 502, 503, 504];
       const resultNA = [];
       const resultOffline = [];
       for (let i = 0; i < data.length; i++) {
@@ -362,7 +375,7 @@ var script$1 = {
         if (data[i].access_time === null && data[i].code === null) {
           resultNA.push(data[i].date);
           // if the access_time is null and the code is in errorCodes, it means that the server is offline
-        } else if (data[i].access_time === null && errorCodes.includes(data[i].code)) {
+        } else if (data[i].access_time === null) {
           resultOffline.push(data[i].date);
         }
       }
@@ -371,7 +384,7 @@ var script$1 = {
         down: resultOffline
       };
     },
-    barTrace(data, name, showlegend, hoverinfo, hovertemplate) {
+    barTrace(data, name, showlegend, hoverinfo, hovertemplate, group) {
       /*
       This function builds a bar trace.
       Arguments:
@@ -389,14 +402,17 @@ var script$1 = {
         },
         name: name,
         type: "bar",
-        legendgroup: name,
+        legendgroup: group,
         showlegend: showlegend,
         hoverinfo: hoverinfo,
-        hovertemplate: hovertemplate
+        hovertemplate: hovertemplate,
+        width: 1000 * 3600 * 24 * 1 // 100% of the space between two dates
       };
+
+      console.log(trace);
       return trace;
     },
-    buildBarTraces(dates, color, label) {
+    buildBarTraces(dates, color, label, group) {
       /*
       This function builds the series used to display the offline/NA bars.
       For each date, two columns are created: one very short and one tall. 
@@ -417,12 +433,12 @@ var script$1 = {
       };
       const dataTall = {
         dates: dates,
-        access_times: Array(dates.length).fill(120),
+        access_times: Array(dates.length).fill(this.max_access_time * 1.1),
         colors: Array(dates.length).fill(colorLight)
       };
       const hovertemplate = `<b>${label}</b><br>%{x|%d %b %Y}<br>%{y} ms <extra></extra>`;
-      const traceShort = this.barTrace(dataShort, label, false, 'skip', '');
-      const traceTall = this.barTrace(dataTall, label, true, 'all', hovertemplate);
+      const traceShort = this.barTrace(dataShort, label, false, 'skip', '', group);
+      const traceTall = this.barTrace(dataTall, label, true, 'all', hovertemplate, group);
       return [traceShort, traceTall];
     },
     buildOfflineNATraces(data) {
@@ -438,11 +454,41 @@ var script$1 = {
       const arrays = this.extractOfflineNADates(data);
 
       // Down arrays
-      traces = traces.concat(this.buildBarTraces(arrays.down, this.colorOffline, 'Offline'));
-
+      if (arrays.down.length > 0) {
+        traces = traces.concat(this.buildBarTraces(arrays.down, this.colorOffline, 'Offline', 'down'));
+        console.log(arrays.down);
+      }
       // NA arrays
-      traces = traces.concat(this.buildBarTraces(arrays.NA, this.colorNA, 'No information available'));
+      if (arrays.NA.length > 0) {
+        traces = traces.concat(this.buildBarTraces(arrays.NA, this.colorNA, 'No information available', 'na'));
+        console.log(arrays.NA);
+      }
       return traces;
+    },
+    xaxesTickFormat() {
+      /*
+      This function returns the tickformat of the x axis.
+      If the plot is used to show data of one week, it returns the day of the week and  the day.
+      Otherwise, it returns the day and the month.
+      */
+
+      if (this.week) {
+        return "%A<br>%d %b";
+      } else {
+        return "%d %b";
+      }
+    },
+    xaxesTickAngle() {
+      /*
+      This function returns the tickangle of the x axis.
+      If the plot is used to show data of one week, it returns 0.
+      Otherwise, it returns 45.
+      */
+      if (this.week) {
+        return 0;
+      } else {
+        return 45;
+      }
     }
   }
 };
