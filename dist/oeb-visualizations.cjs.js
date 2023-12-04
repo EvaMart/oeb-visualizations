@@ -4,7 +4,7 @@
 var script$1 = {
   name: 'accessibilityPlot',
   data: () => ({
-    divId: randstr('acc_plot'),
+    divId: randstr('acc_plot_'),
     max_access_time: 0
   }),
   props: {
@@ -187,6 +187,7 @@ var script$1 = {
       },
       hovermode: 'closest'
     };
+    console.log(this.divId);
     Plotly__default["default"].newPlot(this.divId, traces, layout);
   },
   methods: {
@@ -315,7 +316,7 @@ var script$1 = {
       // set start and end dates so that the line spands the whole plot
       const firstDate = new Date(this.dataItems[0].date);
       if (this.week) {
-        firstDate.setDate(firstDate.getDate() - 0.1); // one day before the first date in data
+        firstDate.setDate(firstDate.getDate() - 0.3); // one day before the first date in data
       } else {
         firstDate.setDate(firstDate.getDate() - 1); // one month before the first date in data
       }
@@ -591,7 +592,7 @@ const __vue_inject_styles__$1 = undefined;
 /* scoped */
 const __vue_scope_id__$1 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-5ead469f";
+const __vue_module_identifier__$1 = "data-v-2c150478";
 /* functional template */
 const __vue_is_functional_template__$1 = false;
 /* style inject */
@@ -605,7 +606,7 @@ var accessibilityPlot = normalizeComponent_1({
 var script = {
   name: 'citationsPlot',
   data: () => ({
-    divId: randstr('cit_plot')
+    divId: randstr('cit_plot_')
   }),
   props: {
     dataTraces: {
@@ -777,7 +778,7 @@ const __vue_inject_styles__ = undefined;
 /* scoped */
 const __vue_scope_id__ = undefined;
 /* module identifier */
-const __vue_module_identifier__ = "data-v-64c53c55";
+const __vue_module_identifier__ = "data-v-4ac5e814";
 /* functional template */
 const __vue_is_functional_template__ = false;
 /* style inject */

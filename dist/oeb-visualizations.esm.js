@@ -8,7 +8,7 @@ function randstr(prefix) {
 var script$1 = {
   name: 'accessibilityPlot',
   data: () => ({
-    divId: randstr('acc_plot'),
+    divId: randstr('acc_plot_'),
     max_access_time: 0
   }),
   props: {
@@ -191,6 +191,7 @@ var script$1 = {
       },
       hovermode: 'closest'
     };
+    console.log(this.divId);
     Plotly.newPlot(this.divId, traces, layout);
   },
   methods: {
@@ -319,7 +320,7 @@ var script$1 = {
       // set start and end dates so that the line spands the whole plot
       const firstDate = new Date(this.dataItems[0].date);
       if (this.week) {
-        firstDate.setDate(firstDate.getDate() - 0.1); // one day before the first date in data
+        firstDate.setDate(firstDate.getDate() - 0.3); // one day before the first date in data
       } else {
         firstDate.setDate(firstDate.getDate() - 1); // one month before the first date in data
       }
@@ -615,7 +616,7 @@ var accessibilityPlot = normalizeComponent_1({
 var script = {
   name: 'citationsPlot',
   data: () => ({
-    divId: randstr('cit_plot')
+    divId: randstr('cit_plot_')
   }),
   props: {
     dataTraces: {

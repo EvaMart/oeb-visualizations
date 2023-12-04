@@ -9,7 +9,7 @@ import { randstr } from '../utils';
 export default {
     name: 'citationsPlot',
     data: () => ({
-        divId: randstr('cit_plot')
+        divId: randstr('cit_plot_')
     }),
     props: {
         dataTraces: {

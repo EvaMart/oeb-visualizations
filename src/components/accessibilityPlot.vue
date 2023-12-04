@@ -11,7 +11,7 @@ import { randstr } from '../utils';
 export default {
     name: 'accessibilityPlot',
     data: () => ({
-        divId: randstr('acc_plot'),
+        divId: randstr('acc_plot_'),
         max_access_time: 0
     }),
     props: {
@@ -194,7 +194,7 @@ export default {
             hoverlabel: { bgcolor: "#FFF" },
             hovermode: 'closest',
         }
-
+        console.log(this.divId)
         Plotly.newPlot(this.divId, traces, layout);
         
     },
@@ -341,7 +341,7 @@ export default {
             // set start and end dates so that the line spands the whole plot
             const firstDate = new Date(this.dataItems[0].date)
             if(this.week){
-                firstDate.setDate(firstDate.getDate() - 0.1 ) // one day before the first date in data
+                firstDate.setDate(firstDate.getDate() - 0.3 ) // one day before the first date in data
             }else{
                 firstDate.setDate(firstDate.getDate() - 1) // one month before the first date in data
             }
