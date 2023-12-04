@@ -147,8 +147,8 @@ var script$1 = {
       margin: {
         l: 50,
         r: 50,
-        b: 70,
-        t: 70,
+        b: 50,
+        t: 20,
         pad: 4
       },
       xaxis: {
@@ -184,9 +184,9 @@ var script$1 = {
       legend: {
         orientation: 'h',
         yanchor: 'bottom',
-        y: 1.02,
-        xanchor: 'right',
-        x: 1,
+        y: -0.5,
+        xanchor: 'left',
+        x: 0.05,
         font: {
           size: 8
         }

@@ -143,8 +143,8 @@ var script$1 = {
       margin: {
         l: 50,
         r: 50,
-        b: 70,
-        t: 70,
+        b: 50,
+        t: 20,
         pad: 4
       },
       xaxis: {
@@ -180,9 +180,9 @@ var script$1 = {
       legend: {
         orientation: 'h',
         yanchor: 'bottom',
-        y: 1.02,
-        xanchor: 'right',
-        x: 1,
+        y: -0.5,
+        xanchor: 'left',
+        x: 0.05,
         font: {
           size: 8
         }
@@ -597,7 +597,7 @@ const __vue_inject_styles__$1 = undefined;
 /* scoped */
 const __vue_scope_id__$1 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-10078f54";
+const __vue_module_identifier__$1 = "data-v-722f1409";
 /* functional template */
 const __vue_is_functional_template__$1 = false;
 /* style inject */
