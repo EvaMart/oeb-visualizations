@@ -89,8 +89,9 @@ In this case, it is not necessary to open an issue first. You can directly open 
 
 ### Git branching model 
 
-We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching model.
+We use the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branching model. You can use [gitflow](https://pypi.org/project/gitflow/) to help you with this.
 
+![Gitflow branch structure diagram](image.png)
 
 ### Git commit messages 
 
