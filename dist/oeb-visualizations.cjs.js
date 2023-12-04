@@ -81,6 +81,15 @@ var script$1 = {
       required: false,
       default: false
     },
+    sixMonths: {
+      /*
+      whether the plot is used to show data of six months
+      If true, months are shown on the x axis
+      */
+      type: Boolean,
+      required: false,
+      default: false
+    },
     dataItems: {
       /*
       dataItems is an array of objects with keys "access_time", "date" and "code".
@@ -149,6 +158,7 @@ var script$1 = {
       },
       xaxis: {
         type: 'date',
+        ticklabelmode: this.xaxisMode(),
         title: this.xaxisTitle,
         font: {
           size: 10
@@ -156,16 +166,17 @@ var script$1 = {
         tickfont: {
           size: 10
         },
-        showgrid: this.week ? true : false,
+        showgrid: this.sixMonths ? true : false,
         griddash: "dot",
         gridwidth: 1,
+        gridcolor: "#d9d7d7",
         showspikes: true,
         spikedash: "4px",
         spikethickness: 1,
-        tick0: this.dataItems[0].date,
-        dtick: this.dtick,
-        tickangle: this.xaxesTickAngle(),
-        tickformat: this.xaxesTickFormat()
+        tick0: this.xaxisTickZero(),
+        dtick: this.xaxisTickD(),
+        tickangle: this.xaxisTickAngle(),
+        tickformat: this.xaxisTickFormat()
       },
       yaxis: {
         title: this.yaxisTitle,
@@ -467,7 +478,7 @@ var script$1 = {
       }
       return traces;
     },
-    xaxesTickFormat() {
+    xaxisTickFormat() {
       /*
       This function returns the tickformat of the x axis.
       If the plot is used to show data of one week, it returns the day of the week and  the day.
@@ -476,11 +487,14 @@ var script$1 = {
 
       if (this.week) {
         return "%A<br>%d %b";
+      }
+      if (this.sixMonths) {
+        return "%b";
       } else {
         return "%d %b";
       }
     },
-    xaxesTickAngle() {
+    xaxisTickAngle() {
       /*
       This function returns the tickangle of the x axis.
       If the plot is used to show data of one week, it returns 0.
@@ -488,8 +502,37 @@ var script$1 = {
       */
       if (this.week) {
         return 0;
+      }
+      if (this.sixMonths) {
+        return 0;
       } else {
         return 45;
+      }
+    },
+    xaxisTickD() {
+      if (this.sixMonths === true) {
+        return "M1";
+      } else {
+        return this.dtick;
+      }
+    },
+    xaxisTickZero() {
+      if (this.sixMonths === true) {
+        console.log('zero six months ago');
+        const lastDate = new Date(this.dataItems[this.dataItems.length - 1].date);
+        //return lastDate minus six months
+        console.log(lastDate);
+        console.log('six months ago: ' + new Date(lastDate.setMonth(lastDate.getMonth() - 6)));
+        return new Date(lastDate.setMonth(lastDate.getMonth() - 6));
+      } else {
+        return this.dataItems[0];
+      }
+    },
+    xaxisMode() {
+      if (this.sixMonths === true) {
+        return "period";
+      } else {
+        return "instant";
       }
     }
   }
@@ -597,7 +640,7 @@ const __vue_inject_styles__$1 = undefined;
 /* scoped */
 const __vue_scope_id__$1 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-722f1409";
+const __vue_module_identifier__$1 = "data-v-77c84891";
 /* functional template */
 const __vue_is_functional_template__$1 = false;
 /* style inject */
