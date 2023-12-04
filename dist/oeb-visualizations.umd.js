@@ -5,7 +5,12 @@ var script$1 = {
   name: 'accessibilityPlot',
   data: () => ({
     divId: randstr('acc_plot_'),
-    max_access_time: 0
+    max_access_time: 0,
+    config: {
+      displaylogo: false,
+      responsive: true,
+      modeBarButtonsToRemove: ['lasso']
+    }
   }),
   props: {
     dtick: {
@@ -188,7 +193,7 @@ var script$1 = {
       hovermode: 'closest'
     };
     console.log(this.divId);
-    Plotly__default["default"].newPlot(this.divId, traces, layout);
+    Plotly__default["default"].newPlot(this.divId, traces, layout, this.config);
   },
   methods: {
     generateColor(values, transparency) {
@@ -592,7 +597,7 @@ const __vue_inject_styles__$1 = undefined;
 /* scoped */
 const __vue_scope_id__$1 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-2c150478";
+const __vue_module_identifier__$1 = "data-v-10078f54";
 /* functional template */
 const __vue_is_functional_template__$1 = false;
 /* style inject */

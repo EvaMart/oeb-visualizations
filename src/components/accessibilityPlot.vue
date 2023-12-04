@@ -12,7 +12,13 @@ export default {
     name: 'accessibilityPlot',
     data: () => ({
         divId: randstr('acc_plot_'),
-        max_access_time: 0
+        max_access_time: 0,
+        config: {
+            displaylogo: false,
+            responsive: true,
+            modeBarButtonsToRemove: ['lasso']
+
+        }
     }),
     props: {
         dtick: {
@@ -195,7 +201,7 @@ export default {
             hovermode: 'closest',
         }
         console.log(this.divId)
-        Plotly.newPlot(this.divId, traces, layout);
+        Plotly.newPlot(this.divId, traces, layout, this.config);
         
     },
     methods: {
