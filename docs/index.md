@@ -16,7 +16,7 @@ npm install @inb/oeb_visualizations
 ### In Vue applications
 > :bulb: You can find more complete examples in the documentation of each component.
 
-Import the `citationsPlot` in your Vue component and add it to the `components` section. Then use the component in the template.
+Install `@inb/oeb_visualizations` in your project and import the component you want to use. Then add it to the `components` section of your Vue component and use it in the template. 
 
 ```html
 <template>
@@ -49,7 +49,9 @@ export default {
 > Also available as a [Code Pen](https://codepen.io/Eva-Mart-n-Del-Pico/pen/MWLBjPX).
 
 
-`oeb_visualization` components can be embedded in any page.To do so:
+`oeb_visualization` components can be embedded in any page. There is no need to install anything, everything necessary is contained in the HTML. 
+
+To use a component in an HTML page:
 
 - Include oeb_visualizations and its dependencies (Vue and Plotly) in your HTML file. 
     ```html

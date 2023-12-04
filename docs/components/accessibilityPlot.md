@@ -38,9 +38,13 @@ Example:
 | colorOnline | String | Color of bars for which the server was online (`code` is 200). RGB format: `"<R>, <G>, <B>"` | 111, 176, 129 | false |
 | yaxisTitle | String | Title of the y axis. | Access time (ms) | false |
 | xaxisTitle | String | Title of the x axis. | Date | false |
-| dtick | String | Tick interval for the x axis in unix epoch. | 86400000 | false |   
+| dtick | String | Tick interval for the x axis in unix epoch. Ignored if "sixMonths" is `true` | 86400000 | false |
+| week | Boolean | If `true` the x axis axis will contain the day of the week (Monday, Tuesday, ...). | false | false |
+| sixMonths | Boolean | If `true` the x axis will be divided in 6 months intervals. | false | false |
 
 ## Usage 
+
+### In Vue applications
 
 Import the `accessibilityPlot` in your Vue component and add it to the `components` section. Then use the component in the template.
 
@@ -82,3 +86,53 @@ export default {
 }
 </script>
 ```
+
+### In HTML pages 
+
+Import the `oeb_visualizations` and its dependencies (Vue and Plotly) in your HTML file. 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/@inb/oeb_visualizations/dist/oeb-visualizations.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <accessibility-plot :data-items="dataToPlot" ></accessibility-plot>
+        </div>
+    </body>
+    <script>
+        const data = [
+            {
+                "date": "2022-10-23T07:54:06.716122Z",
+                "code": 200,
+                "access_time": 51
+            },
+            {
+                "date": "2022-10-24T07:58:50.609475Z",
+                "code": 200,
+                "access_time": 67
+            },
+            {
+                "date": "2022-10-25T07:51:53.841140Z",
+                "code": 200,
+                "access_time": 55
+            }
+        ]
+
+        Vue.component('accessibility-plot', 'oeb_visualizations'.accessibilityPlot)
+
+        let app = new Vue(
+            { 
+                el: '#app', 
+                data: { 
+                    dataToPlot: data 
+                    }  
+            })
+
+    </script>
+</html>
+``` 
