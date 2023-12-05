@@ -1,6 +1,6 @@
 {
   "name": "@inb/oeb_visualizations",
-  "version": "0.0.8-beta",
+  "version": "0.0.8",
   "description": "Collection of Vue components for data visualization in OpenEBench.",
   "author": "evamart",
   "license": "MIT",
@@ -23,7 +23,6 @@
   "files": [
     "dist/*"
   ],
-
   "vetur": {
     "tags": "tags.json",
     "attributes": "attributes.json"
