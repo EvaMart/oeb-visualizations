@@ -33,6 +33,7 @@ Example:
 | --- | --- | --- | --- | --- |
 |dataItems | Array | Array of objects  with keys `access_time`, `date` and `code`. <br> More details in "Data" section | | true |
 | height | Number | Height of the plot in pixels. | 400 | false |
+| width | Number | Width of the plot in pixels. | 700 | false |
 | colorNA | String | Color of bars for which there is no monitoring information (`code`=`null`). RGB format: `"<R>, <G>, <B>"` | 204, 204, 204 | false |
 | colorOffline | String | Color of bars for which the server was offline (`code` is an error code). RGB format: `"<R>, <G>, <B>"` | 255, 153, 145 | false |
 | colorOnline | String | Color of bars for which the server was online (`code` is 200). RGB format: `"<R>, <G>, <B>"` | 111, 176, 129 | false |

@@ -80,6 +80,15 @@ export default {
             required: false,
             default: 350
         },
+        width: {
+            /*
+            width is the width of the plot in px.
+            */
+            type: Number,
+            required: false,
+            default: 700
+        },
+
         week: {
             /*
             whether the plot is used to show data of one week
@@ -159,6 +168,7 @@ export default {
             showlegend: true,
             autosize: true,
             height: this.height,
+            width: this.width,
             margin: {
                 l: 50,
                 r: 50,
