@@ -193,7 +193,7 @@ export default {
                 tickfont: {
                         size: 10
                     },
-                showgrid: true,
+                showgrid: false,
                 griddash: "dot",
                 gridwidth: 1,
                 gridcolor: "#d9d7d7",
