@@ -21,6 +21,13 @@ export default {
         }
     }),
     props: {
+        xrange: {
+            /*
+            xrange is the range of the x axis in ms.
+            */
+            type: Array,
+            required: false
+        },
         dtick: {
             /*
             dtick is the interval between ticks on the x axis in ms.
@@ -186,7 +193,7 @@ export default {
                 tickfont: {
                         size: 10
                     },
-                showgrid: this.sixMonths ? true : false,
+                showgrid: true,
                 griddash: "dot",
                 gridwidth: 1,
                 gridcolor: "#d9d7d7",
@@ -197,6 +204,7 @@ export default {
                 dtick: this.xaxisTickD(),
                 tickangle: this.xaxisTickAngle(),
                 tickformat: this.xaxisTickFormat(),
+                range: this.xaxisRange()
             },
             yaxis: {
                 title: this.yaxisTitle,
@@ -604,6 +612,13 @@ export default {
                 return "period"
             }else{
                 return "instant"
+            }
+        },
+        xaxisRange(){
+            if(!this.xrange){
+                return [this.dataItems[0], this.dataItems[this.dataItems.length - 1]]
+            }else{
+                return this.xrange
             }
         }
     }
