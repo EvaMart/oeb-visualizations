@@ -193,7 +193,7 @@ export default {
                 tickfont: {
                         size: 10
                     },
-                showgrid: false,
+                showgrid: this.sixMonths ? true : false,
                 griddash: "dot",
                 gridwidth: 1,
                 gridcolor: "#d9d7d7",
@@ -204,6 +204,7 @@ export default {
                 dtick: this.xaxisTickD(),
                 tickangle: this.xaxisTickAngle(),
                 tickformat: this.xaxisTickFormat(),
+                tickvals: this.sixMonths ? this.monthTickVales() : null,
                 range: this.xaxisRange()
             },
             yaxis: {
@@ -566,7 +567,7 @@ export default {
                 return "%A<br>%d %b";
             }
             if(this.sixMonths){
-                return "%b";
+                return "%d %b";
             }
             else{
                 return "%d %b";
@@ -580,9 +581,8 @@ export default {
             */
             if(this.week){
                 return 0;
-            }
-            if(this.sixMonths){
-                return 0;
+            }if(this.sixMonths){
+                return 45;
             }
             else{
                 return 45;
@@ -607,6 +607,7 @@ export default {
                 return this.dataItems[0]
             }
         },
+
         xaxisMode(){
             if(this.sixMonths === true){
                 return "period"
@@ -620,6 +621,18 @@ export default {
             }else{
                 return this.xrange
             }
+        },
+        monthTickVales(){
+            // First day of month of last date and previous five months
+            const lastDate = new Date(this.dataItems[this.dataItems.length - 1].date)
+            const lastMonth = lastDate.getMonth()
+            const lastYear = lastDate.getFullYear()
+            const firstDate = new Date(lastYear, lastMonth - 5, 1)
+            const tickValues = []
+            for(let i = 0; i < 6; i++){
+                tickValues.push(new Date(lastYear, lastMonth - i, 1))
+            }
+            return tickValues
         }
     }
 }

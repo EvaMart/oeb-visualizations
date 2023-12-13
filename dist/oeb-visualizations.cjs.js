@@ -13,6 +13,13 @@ var script$1 = {
     }
   }),
   props: {
+    xrange: {
+      /*
+      xrange is the range of the x axis in ms.
+      */
+      type: Array,
+      required: false
+    },
     dtick: {
       /*
       dtick is the interval between ticks on the x axis in ms.
@@ -71,6 +78,14 @@ var script$1 = {
       type: Number,
       required: false,
       default: 350
+    },
+    width: {
+      /*
+      width is the width of the plot in px.
+      */
+      type: Number,
+      required: false,
+      default: 700
     },
     week: {
       /*
@@ -149,6 +164,7 @@ var script$1 = {
       showlegend: true,
       autosize: true,
       height: this.height,
+      width: this.width,
       margin: {
         l: 50,
         r: 50,
@@ -176,7 +192,9 @@ var script$1 = {
         tick0: this.xaxisTickZero(),
         dtick: this.xaxisTickD(),
         tickangle: this.xaxisTickAngle(),
-        tickformat: this.xaxisTickFormat()
+        tickformat: this.xaxisTickFormat(),
+        tickvals: this.sixMonths ? this.monthTickVales() : null,
+        range: this.xaxisRange()
       },
       yaxis: {
         title: this.yaxisTitle,
@@ -489,7 +507,7 @@ var script$1 = {
         return "%A<br>%d %b";
       }
       if (this.sixMonths) {
-        return "%b";
+        return "%d %b";
       } else {
         return "%d %b";
       }
@@ -504,7 +522,7 @@ var script$1 = {
         return 0;
       }
       if (this.sixMonths) {
-        return 0;
+        return 45;
       } else {
         return 45;
       }
@@ -534,6 +552,24 @@ var script$1 = {
       } else {
         return "instant";
       }
+    },
+    xaxisRange() {
+      if (!this.xrange) {
+        return [this.dataItems[0], this.dataItems[this.dataItems.length - 1]];
+      } else {
+        return this.xrange;
+      }
+    },
+    monthTickVales() {
+      // First day of month of last date and previous five months
+      const lastDate = new Date(this.dataItems[this.dataItems.length - 1].date);
+      const lastMonth = lastDate.getMonth();
+      const lastYear = lastDate.getFullYear();
+      const tickValues = [];
+      for (let i = 0; i < 6; i++) {
+        tickValues.push(new Date(lastYear, lastMonth - i, 1));
+      }
+      return tickValues;
     }
   }
 };function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
@@ -640,7 +676,7 @@ const __vue_inject_styles__$1 = undefined;
 /* scoped */
 const __vue_scope_id__$1 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-77c84891";
+const __vue_module_identifier__$1 = "data-v-718985f7";
 /* functional template */
 const __vue_is_functional_template__$1 = false;
 /* style inject */
