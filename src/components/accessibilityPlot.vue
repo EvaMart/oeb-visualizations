@@ -148,8 +148,9 @@ export default {
                         console.error(`[oeb-visualizations warn] code must be null or a number in dataItems prop item (at position ${i})`)
                     }
                     // Date must be a string containing a date
-                    if(typeof value[i].date !== 'string' || isNaN(Date.parse(value[i].date))){
-                        console.error(`[oeb-visualizations warn] date must be a string containing a date in dataItems prop item (at position ${i})`)
+                    if(typeof value[i].date !== 'string' || isNaN(Date.parse(value[i].date)) || value[i].date !== 'number'){
+                        console.error(`[oeb-visualizations warn] date must be a string containing a date or a number in dataItems prop item (at position ${i})`)
+                        console.error(`[oeb-visualizations warn] date type is ${typeof value[i].date} and the value is ${value[i].date}`)
                     }
 
                     // And date cannot be null
