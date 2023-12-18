@@ -5,7 +5,7 @@ function randstr(prefix) {
 }
 
 //
-var script$1 = {
+var script$2 = {
   name: 'accessibilityPlot',
   data: () => ({
     divId: randstr('acc_plot_'),
@@ -75,6 +75,14 @@ var script$1 = {
       type: Number,
       required: false,
       default: 350
+    },
+    width: {
+      /*
+      width is the width of the plot in px.
+      */
+      type: Number,
+      required: false,
+      default: 700
     },
     week: {
       /*
@@ -153,6 +161,7 @@ var script$1 = {
       showlegend: true,
       autosize: true,
       height: this.height,
+      width: this.width,
       margin: {
         l: 50,
         r: 50,
@@ -628,10 +637,10 @@ function normalizeComponent(template, style, script, scopeId, isFunctionalTempla
 var normalizeComponent_1 = normalizeComponent;
 
 /* script */
-const __vue_script__$1 = script$1;
+const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$1 = function () {
+var __vue_render__$2 = function () {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
@@ -641,27 +650,27 @@ var __vue_render__$1 = function () {
     }
   });
 };
-var __vue_staticRenderFns__$1 = [];
+var __vue_staticRenderFns__$2 = [];
 
 /* style */
-const __vue_inject_styles__$1 = undefined;
+const __vue_inject_styles__$2 = undefined;
 /* scoped */
-const __vue_scope_id__$1 = undefined;
+const __vue_scope_id__$2 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = undefined;
+const __vue_module_identifier__$2 = undefined;
 /* functional template */
-const __vue_is_functional_template__$1 = false;
+const __vue_is_functional_template__$2 = false;
 /* style inject */
 
 /* style inject SSR */
 
 var accessibilityPlot = normalizeComponent_1({
-  render: __vue_render__$1,
-  staticRenderFns: __vue_staticRenderFns__$1
-}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, undefined, undefined);
+  render: __vue_render__$2,
+  staticRenderFns: __vue_staticRenderFns__$2
+}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, undefined, undefined);
 
 //
-var script = {
+var script$1 = {
   name: 'citationsPlot',
   data: () => ({
     divId: randstr('cit_plot_')
@@ -818,6 +827,104 @@ var script = {
 };
 
 /* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function () {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c('div', {
+    attrs: {
+      "id": _vm.divId
+    }
+  });
+};
+var __vue_staticRenderFns__$1 = [];
+
+/* style */
+const __vue_inject_styles__$1 = undefined;
+/* scoped */
+const __vue_scope_id__$1 = undefined;
+/* module identifier */
+const __vue_module_identifier__$1 = undefined;
+/* functional template */
+const __vue_is_functional_template__$1 = false;
+/* style inject */
+
+/* style inject SSR */
+
+var citationsPlot = normalizeComponent_1({
+  render: __vue_render__$1,
+  staticRenderFns: __vue_staticRenderFns__$1
+}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, undefined, undefined);
+
+//
+var script = {
+  name: 'scatterPlot',
+  props: {
+    data: {
+      type: Array,
+      required: true
+    },
+    pareto: {
+      type: Array,
+      required: false
+    }
+  },
+  data() {
+    return {
+      divId: randstr('scatter_plot_'),
+      traces: []
+    };
+  },
+  mounted() {
+    // We need to add mode and type to each trace
+    console.log(this.data);
+    this.traces = this.data.map(trace => {
+      return {
+        x: trace.x,
+        y: trace.y,
+        error_x: trace.error_x,
+        error_y: trace.error_y,
+        mode: 'markers',
+        type: 'scatter',
+        name: trace.name
+      };
+    });
+    console.log(this.traces);
+    // Add pareto trace
+    if (this.pareto) {
+      // build x and y arrays
+      const x = [];
+      const y = [];
+      for (let i = 0; i < this.pareto.length; i++) {
+        x.push(this.pareto[i][0]);
+        y.push(this.pareto[i][1]);
+      }
+      console.log(x);
+      console.log(y);
+      this.traces.push({
+        x: x,
+        y: y,
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Pareto'
+      });
+    }
+    const layout = {
+      xaxis: {
+        title: 'X Axis'
+      },
+      yaxis: {
+        title: 'Y Axis'
+      }
+    };
+    Plotly.newPlot(this.divId, this.traces, layout);
+  }
+};
+
+/* script */
 const __vue_script__ = script;
 
 /* template */
@@ -845,7 +952,7 @@ const __vue_is_functional_template__ = false;
 
 /* style inject SSR */
 
-var citationsPlot = normalizeComponent_1({
+var scatterPlot = normalizeComponent_1({
   render: __vue_render__,
   staticRenderFns: __vue_staticRenderFns__
 }, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, undefined, undefined);
@@ -853,7 +960,8 @@ var citationsPlot = normalizeComponent_1({
 var components = /*#__PURE__*/Object.freeze({
     __proto__: null,
     accessibilityPlot: accessibilityPlot,
-    citationsPlot: citationsPlot
+    citationsPlot: citationsPlot,
+    scatterPlot: scatterPlot
 });
 
 // install function executed by Vue.use()
@@ -878,4 +986,4 @@ if (typeof Vue !== 'undefined') {
 }
 */
 
-export { accessibilityPlot, citationsPlot, plugin as default };
+export { accessibilityPlot, citationsPlot, plugin as default, scatterPlot };

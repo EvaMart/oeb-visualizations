@@ -1,7 +1,7 @@
 (function(g,f){typeof exports==='object'&&typeof module!=='undefined'?f(exports,require('plotly.js-dist')):typeof define==='function'&&define.amd?define(['exports','plotly.js-dist'],f):(g=typeof globalThis!=='undefined'?globalThis:g||self,f(g.oeb_visualizations={},g.Plotly));})(this,(function(exports,Plotly){'use strict';function _interopDefaultLegacy(e){return e&&typeof e==='object'&&'default'in e?e:{'default':e}}var Plotly__default=/*#__PURE__*/_interopDefaultLegacy(Plotly);function randstr(prefix) {
   return Math.random().toString(36).replace('0.', prefix || '');
 }//
-var script$1 = {
+var script$2 = {
   name: 'accessibilityPlot',
   data: () => ({
     divId: randstr('acc_plot_'),
@@ -71,6 +71,14 @@ var script$1 = {
       type: Number,
       required: false,
       default: 350
+    },
+    width: {
+      /*
+      width is the width of the plot in px.
+      */
+      type: Number,
+      required: false,
+      default: 700
     },
     week: {
       /*
@@ -149,6 +157,7 @@ var script$1 = {
       showlegend: true,
       autosize: true,
       height: this.height,
+      width: this.width,
       margin: {
         l: 50,
         r: 50,
@@ -620,10 +629,10 @@ var script$1 = {
 }
 
 var normalizeComponent_1 = normalizeComponent;/* script */
-const __vue_script__$1 = script$1;
+const __vue_script__$2 = script$2;
 
 /* template */
-var __vue_render__$1 = function () {
+var __vue_render__$2 = function () {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
@@ -633,25 +642,25 @@ var __vue_render__$1 = function () {
     }
   }, []);
 };
-var __vue_staticRenderFns__$1 = [];
+var __vue_staticRenderFns__$2 = [];
 
 /* style */
-const __vue_inject_styles__$1 = undefined;
+const __vue_inject_styles__$2 = undefined;
 /* scoped */
-const __vue_scope_id__$1 = undefined;
+const __vue_scope_id__$2 = undefined;
 /* module identifier */
-const __vue_module_identifier__$1 = "data-v-77c84891";
+const __vue_module_identifier__$2 = "data-v-43b63913";
 /* functional template */
-const __vue_is_functional_template__$1 = false;
+const __vue_is_functional_template__$2 = false;
 /* style inject */
 
 /* style inject SSR */
 
 var accessibilityPlot = normalizeComponent_1({
-  render: __vue_render__$1,
-  staticRenderFns: __vue_staticRenderFns__$1
-}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, undefined, undefined);//
-var script = {
+  render: __vue_render__$2,
+  staticRenderFns: __vue_staticRenderFns__$2
+}, __vue_inject_styles__$2, __vue_script__$2, __vue_scope_id__$2, __vue_is_functional_template__$2, __vue_module_identifier__$2, undefined, undefined);//
+var script$1 = {
   name: 'citationsPlot',
   data: () => ({
     divId: randstr('cit_plot_')
@@ -806,6 +815,100 @@ var script = {
     }
   }
 };/* script */
+const __vue_script__$1 = script$1;
+
+/* template */
+var __vue_render__$1 = function () {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c('div', {
+    attrs: {
+      "id": _vm.divId
+    }
+  }, []);
+};
+var __vue_staticRenderFns__$1 = [];
+
+/* style */
+const __vue_inject_styles__$1 = undefined;
+/* scoped */
+const __vue_scope_id__$1 = undefined;
+/* module identifier */
+const __vue_module_identifier__$1 = "data-v-4ac5e814";
+/* functional template */
+const __vue_is_functional_template__$1 = false;
+/* style inject */
+
+/* style inject SSR */
+
+var citationsPlot = normalizeComponent_1({
+  render: __vue_render__$1,
+  staticRenderFns: __vue_staticRenderFns__$1
+}, __vue_inject_styles__$1, __vue_script__$1, __vue_scope_id__$1, __vue_is_functional_template__$1, __vue_module_identifier__$1, undefined, undefined);//
+var script = {
+  name: 'scatterPlot',
+  props: {
+    data: {
+      type: Array,
+      required: true
+    },
+    pareto: {
+      type: Array,
+      required: false
+    }
+  },
+  data() {
+    return {
+      divId: randstr('scatter_plot_'),
+      traces: []
+    };
+  },
+  mounted() {
+    // We need to add mode and type to each trace
+    console.log(this.data);
+    this.traces = this.data.map(trace => {
+      return {
+        x: trace.x,
+        y: trace.y,
+        error_x: trace.error_x,
+        error_y: trace.error_y,
+        mode: 'markers',
+        type: 'scatter',
+        name: trace.name
+      };
+    });
+    console.log(this.traces);
+    // Add pareto trace
+    if (this.pareto) {
+      // build x and y arrays
+      const x = [];
+      const y = [];
+      for (let i = 0; i < this.pareto.length; i++) {
+        x.push(this.pareto[i][0]);
+        y.push(this.pareto[i][1]);
+      }
+      console.log(x);
+      console.log(y);
+      this.traces.push({
+        x: x,
+        y: y,
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Pareto'
+      });
+    }
+    const layout = {
+      xaxis: {
+        title: 'X Axis'
+      },
+      yaxis: {
+        title: 'Y Axis'
+      }
+    };
+    Plotly__default["default"].newPlot(this.divId, this.traces, layout);
+  }
+};/* script */
 const __vue_script__ = script;
 
 /* template */
@@ -826,17 +929,17 @@ const __vue_inject_styles__ = undefined;
 /* scoped */
 const __vue_scope_id__ = undefined;
 /* module identifier */
-const __vue_module_identifier__ = "data-v-4ac5e814";
+const __vue_module_identifier__ = "data-v-541d7ad3";
 /* functional template */
 const __vue_is_functional_template__ = false;
 /* style inject */
 
 /* style inject SSR */
 
-var citationsPlot = normalizeComponent_1({
+var scatterPlot = normalizeComponent_1({
   render: __vue_render__,
   staticRenderFns: __vue_staticRenderFns__
-}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, undefined, undefined);var components=/*#__PURE__*/Object.freeze({__proto__:null,accessibilityPlot:accessibilityPlot,citationsPlot:citationsPlot});// install function executed by Vue.use()
+}, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, undefined, undefined);var components=/*#__PURE__*/Object.freeze({__proto__:null,accessibilityPlot:accessibilityPlot,citationsPlot:citationsPlot,scatterPlot:scatterPlot});// install function executed by Vue.use()
 const install = function installVueOEBViz(Vue) {
   if (install.installed) return;
   install.installed = true;
@@ -871,4 +974,4 @@ if (typeof Vue !== 'undefined') {
     Vue.component(name, components[name])
   }
 }
-*/exports.accessibilityPlot=accessibilityPlot;exports.citationsPlot=citationsPlot;exports["default"]=plugin;Object.defineProperty(exports,'__esModule',{value:true});}));
+*/exports.accessibilityPlot=accessibilityPlot;exports.citationsPlot=citationsPlot;exports["default"]=plugin;exports.scatterPlot=scatterPlot;Object.defineProperty(exports,'__esModule',{value:true});}));
