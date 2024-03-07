@@ -21,6 +21,13 @@ export default {
         }
     }),
     props: {
+        xrange: {
+            /*
+            xrange is the range of the x axis in ms.
+            */
+            type: Array,
+            required: false
+        },
         dtick: {
             /*
             dtick is the interval between ticks on the x axis in ms.
@@ -141,8 +148,9 @@ export default {
                         console.error(`[oeb-visualizations warn] code must be null or a number in dataItems prop item (at position ${i})`)
                     }
                     // Date must be a string containing a date
-                    if(typeof value[i].date !== 'string' || isNaN(Date.parse(value[i].date))){
-                        console.error(`[oeb-visualizations warn] date must be a string containing a date in dataItems prop item (at position ${i})`)
+                    if(typeof value[i].date !== 'string' || isNaN(Date.parse(value[i].date)) || value[i].date !== 'number'){
+                        console.error(`[oeb-visualizations warn] date must be a string containing a date or a number in dataItems prop item (at position ${i})`)
+                        console.error(`[oeb-visualizations warn] date type is ${typeof value[i].date} and the value is ${value[i].date}`)
                     }
 
                     // And date cannot be null
@@ -197,6 +205,8 @@ export default {
                 dtick: this.xaxisTickD(),
                 tickangle: this.xaxisTickAngle(),
                 tickformat: this.xaxisTickFormat(),
+                tickvals: this.sixMonths ? this.monthTickVales() : null,
+                range: this.xaxisRange()
             },
             yaxis: {
                 title: this.yaxisTitle,
@@ -558,7 +568,7 @@ export default {
                 return "%A<br>%d %b";
             }
             if(this.sixMonths){
-                return "%b";
+                return "%d %b";
             }
             else{
                 return "%d %b";
@@ -572,9 +582,8 @@ export default {
             */
             if(this.week){
                 return 0;
-            }
-            if(this.sixMonths){
-                return 0;
+            }if(this.sixMonths){
+                return 45;
             }
             else{
                 return 45;
@@ -599,12 +608,32 @@ export default {
                 return this.dataItems[0]
             }
         },
+
         xaxisMode(){
             if(this.sixMonths === true){
                 return "period"
             }else{
                 return "instant"
             }
+        },
+        xaxisRange(){
+            if(!this.xrange){
+                return [this.dataItems[0], this.dataItems[this.dataItems.length - 1]]
+            }else{
+                return this.xrange
+            }
+        },
+        monthTickVales(){
+            // First day of month of last date and previous five months
+            const lastDate = new Date(this.dataItems[this.dataItems.length - 1].date)
+            const lastMonth = lastDate.getMonth()
+            const lastYear = lastDate.getFullYear()
+            const firstDate = new Date(lastYear, lastMonth - 5, 1)
+            const tickValues = []
+            for(let i = 0; i < 6; i++){
+                tickValues.push(new Date(lastYear, lastMonth - i, 1))
+            }
+            return tickValues
         }
     }
 }
