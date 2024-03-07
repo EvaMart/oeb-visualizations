@@ -26,9 +26,9 @@ The components are written in the `src/components` folder. Each component should
 The documentation is built using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/). The content of the documentation is written in markdown and should be added to the `docs` folder. 
 The configuration of the documentation is in the `mkdocs.yml` file. This file contains the structure of the documentation, including navigation, the theme used, etc. More information about how to configure the documentation can be found in the [documentation](https://squidfunk.github.io/mkdocs-material/reference/).
 
-### How to add a new component.
+### How to add a new visualization.
 
-If you want to add a new component, you should create a new component for it. Follow the steps below:
+If you want to add a new visualization, you should create a new component for it. Follow the steps below:
 
 - Create the new component in the `src/components` folder. A component can be written in only one file or, if it is complex, it can be divided into smaller components in a folder.  
 - Add the new component to the `index.js`, as following: 
@@ -42,9 +42,9 @@ If you want to add a new component, you should create a new component for it. Fo
     }
     ```
 
-> :warning: If the new component is a complex component, it should be divided into smaller components. In this case, the `index.js` file should export the smaller components and the main component. 
+> If the new component is a complex component, it should be divided into smaller components. In this case, the `index.js` file should export the smaller components and the main component. 
 
-> :warning: The documentation should be updated to include the new component.
+> The documentation should be updated to include the new component.
 
 ### How to document a new component.
 
