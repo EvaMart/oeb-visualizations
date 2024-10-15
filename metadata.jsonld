@@ -15,7 +15,6 @@
     "https://github.com/topics/vue"
   ],
   "schema:author": [
-    { "@type": "schema:Person", "schema:name": "José María Fernández" },
     {
       "@type": "schema:Person",
       "schema:email": "eva.martin@bsc.es",
